@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="Text"
-        android:layout_width="wrap_content"
+        android:text=""
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:width="500px"
         android:height="300px"
@@ -14,13 +14,22 @@
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:textAlignment="center"
+        android:textSize="20dp"
         />
     <Button
         android:text="Kanye Me"
-        android:layout_width="475px"
-        android:layout_height="150px"
+        android:layout_width="273.1dp"
+        android:layout_height="62.9dp"
         android:id="@+id/quoteButton"
         android:layout_below="@id/quoteTextView"
         android:layout_centerHorizontal="true"
         android:onClick="getQuote()"/>
+    <TextView
+        android:text="Made possible by the Kanye.REST API"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/textView1" />
 </RelativeLayout>
