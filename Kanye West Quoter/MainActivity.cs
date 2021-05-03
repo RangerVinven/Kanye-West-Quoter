@@ -4,6 +4,7 @@ using System.Net.Http;
 using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using Xamarin.Essentials;
 
 namespace Kanye_West_Quoter
 {
@@ -37,24 +38,34 @@ namespace Kanye_West_Quoter
         }
 
         private void getQuote(TextView quoteTextView, HttpClient httpClient) {
-            // Calls the Kanye.REST api to get the quote
-            var response = httpClient.GetAsync("https://api.kanye.rest/");
-            var result = response.Result.Content.ReadAsStringAsync();
 
-            // Gets the current and new quote
-            string oldQuote = quoteTextView.Text;
-            string newQuote = result.Result.Replace("{", "").Replace("}", "").Replace("quote", "").Replace(":", "").Trim('"');
+            // Makes sure the user is connected to the internet
+            var internetConnection = Connectivity.NetworkAccess;
 
-            // Makes sure the new quote is new
-            while(oldQuote == newQuote) {
-                response = httpClient.GetAsync("https://api.kanye.rest/");
-                result = response.Result.Content.ReadAsStringAsync();
+            if(internetConnection == NetworkAccess.Internet) {
+                // Calls the Kanye.REST api to get the quote
+                var response = httpClient.GetAsync("https://api.kanye.rest/");
+                var result = response.Result.Content.ReadAsStringAsync();
 
-                newQuote = result.Result;
+                // Gets the current and new quote
+                string oldQuote = quoteTextView.Text;
+                string newQuote = result.Result.Replace("{", "").Replace("}", "").Replace("quote", "").Replace(":", "").Trim('"');
+
+                // Makes sure the new quote is new
+                while (oldQuote == newQuote) {
+                    response = httpClient.GetAsync("https://api.kanye.rest/");
+                    result = response.Result.Content.ReadAsStringAsync();
+
+                    newQuote = result.Result;
+                }
+
+                // Adds it to the quoteTextView
+                quoteTextView.Text = newQuote;
+
+            } else {
+                // Makes a toast telling the user that they need an internet connection
+                Toast.MakeText(Application.Context, "You need an internet connection", ToastLength.Short).Show();
             }
-
-            // Adds it to the quoteTextView
-            quoteTextView.Text = newQuote;
 
         }
 
